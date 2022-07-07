@@ -1,0 +1,14 @@
+{
+  "name": "8_chalk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rodrigo Paluma <rodrigo.paluma@gmail.com> (https://www.linkedin.com/in/rodrigopaluma/)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.0.1"
+  }
+}
