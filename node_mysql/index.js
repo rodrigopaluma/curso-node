@@ -1,6 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const mysql = require('mysql');
+const pool = require('./db/conn');
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.post('/books/insertbook', (req, res)=>{
 
     const query = `INSERT INTO books (title, pagesqty) VALUES ('${title}', '${pagesQty}')`;
 
-    connection.query(query, function(err){
+    pool.query(query, function(err){
         if(err){
             console.log(err);
             res.send('Erro ao cadastrar livro');
@@ -40,7 +40,7 @@ app.post('/books/insertbook', (req, res)=>{
 app.get('/books', (req, res)=>{
     const query = `SELECT * FROM books`;
 
-    connection.query(query, function(err, data){
+    pool.query(query, function(err, data){
         if(err){
             console.log(err);
             res.send('Erro ao recuperar livros');
@@ -57,7 +57,7 @@ app.get('/books/:id', (req, res)=>{
     const id = req.params.id;
     const query = `SELECT * FROM books WHERE id = ${id}`;
 
-    connection.query(query, function(err, data){
+    pool.query(query, function(err, data){
         if(err){
             console.log(err);
             res.send('Erro ao recuperar livro');
@@ -78,7 +78,7 @@ app.get('/books/edit/:id', (req, res)=>{
     //const query = `UPDATE books SET title = '${title}', pagesqty = '${pagesQty}' WHERE id = ${id}`;
     const query = `SELECT * FROM books WHERE id = ${id}`;
 
-    connection.query(query, function(err, data){
+    pool.query(query, function(err, data){
         if(err){
             console.log(err);
             res.send('Erro ao atualizar livro');
@@ -95,10 +95,10 @@ app.post('/books/updatebook', (req, res)=>{
     const id = req.body.id;
     const title = req.body.title;
     const pagesQty = req.body.pagesqty;
-    console.log(req)
+    //console.log(req)
     const query = `UPDATE books SET title= '${title}', pagesqty= '${pagesQty}' WHERE id = '${id}'`;
     console.log(req)
-    connection.query(query, function(err){
+    pool.query(query, function(err){
         if(err){
             console.log(err);
             //res.send('Erro ao atualizar livro');
@@ -113,7 +113,7 @@ app.post('/books/remove/:id', (req, res)=>{
     const id = req.params.id;
     const query = `DELETE FROM books WHERE id = '${id}'`;
 
-    connection.query(query, function(err){
+    pool.query(query, function(err){
         if(err){
             console.log(err);
             res.send('Erro ao apagar livro');
@@ -123,20 +123,4 @@ app.post('/books/remove/:id', (req, res)=>{
     })
 })
 
-// Conexão com o Banco de Dados
-const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: 3306,
-    user: 'root',
-    password: '12345',
-    database: 'node_mysql'
-})
-
-connection.connect(function (err) {
-    if(err) {
-        console.log('Error connecting to Database');
-        return;
-    }
-    console.log('Connection established');
-    app.listen(3000)
-})
+app.listen(3000);
