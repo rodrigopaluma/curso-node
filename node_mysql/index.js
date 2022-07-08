@@ -4,15 +4,36 @@ const mysql = require('mysql');
 
 const app = express();
 
+// Configuração para pegar o body do formulário
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Configure the view engine to render handlebars.
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
-
-app.use(express.static('./public'));
+app.use(express.static('public'));
 
 // Home
 app.get('/', (req, res)=>{
     res.render('home');
-});
+})
+
+// Cadastro de Livros
+app.post('/books/insertbook', (req, res)=>{
+    const title = req.body.title;
+    const pagesQty = req.body.pagesqty;
+
+    const query = `INSERT INTO books (title, pagesqty) VALUES ('${title}', '${pagesQty}')`;
+
+    connection.query(query, function(err){
+        if(err){
+            console.log(err);
+            res.send('Erro ao cadastrar livro');
+        } else {
+            res.send('Livro cadastrado com sucesso');
+        }
+    })
+})
 
 // Conexão com o Banco de Dados
 const connection = mysql.createConnection({
