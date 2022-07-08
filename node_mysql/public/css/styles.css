@@ -1,10 +1,10 @@
 * {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
 }
 body {
     background-color: #f9f9f9;
-    margin: 0;
-    padding: 2em;
+    padding: 1em;
 }
 h1 {
     color: #003865;
@@ -22,7 +22,7 @@ h2 {
 
 p {
     color: black;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .form, .books-container {
@@ -53,4 +53,27 @@ p {
 
 .bold {
     font-weight: bold;
+}
+
+#navbar {
+    border-bottom: 1px solid #ccc;
+    padding: .5em;
+    margin-bottom: .5em;
+}
+
+#navbar ul{
+    display: flex;
+    list-style: none;
+}
+
+#navbar ul li{
+    margin-left: 1em;
+}
+
+#book-page {
+    padding: 2em;
+}
+
+#book-page .container {
+    text-align: center;
 }

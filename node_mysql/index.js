@@ -18,7 +18,7 @@ app.get('/', (req, res)=>{
     res.render('home');
 })
 
-// Cadastro de Livros
+// Cadastro de Livros - createBook()
 app.post('/books/insertbook', (req, res)=>{
     const title = req.body.title;
     const pagesQty = req.body.pagesqty;
@@ -36,7 +36,7 @@ app.post('/books/insertbook', (req, res)=>{
     })
 })
 
-// Recuperação de Livros
+// Recuperação de Livros - getBooks()
 app.get('/books', (req, res)=>{
     const query = `SELECT * FROM books`;
 
@@ -49,6 +49,23 @@ app.get('/books', (req, res)=>{
         const books = data;
         //console.log(books);
         res.render('books', {books});
+    })
+})
+
+// Recuperação de Livro - getBook()
+app.get('/books/:id', (req, res)=>{
+    const id = req.params.id;
+    const query = `SELECT * FROM books WHERE id = ${id}`;
+
+    connection.query(query, function(err, data){
+        if(err){
+            console.log(err);
+            res.send('Erro ao recuperar livro');
+            return
+        }
+        const book = data[0];
+        //console.log(book);
+        res.render('book', {book});
     })
 })
 
