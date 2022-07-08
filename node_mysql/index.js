@@ -29,9 +29,26 @@ app.post('/books/insertbook', (req, res)=>{
         if(err){
             console.log(err);
             res.send('Erro ao cadastrar livro');
+            return
         } else {
-            res.send('Livro cadastrado com sucesso');
+            res.redirect('/books');
         }
+    })
+})
+
+// Recuperação de Livros
+app.get('/books', (req, res)=>{
+    const query = `SELECT * FROM books`;
+
+    connection.query(query, function(err, data){
+        if(err){
+            console.log(err);
+            res.send('Erro ao recuperar livros');
+            return
+        }
+        const books = data;
+        //console.log(books);
+        res.render('books', {books});
     })
 })
 

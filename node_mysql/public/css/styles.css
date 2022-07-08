@@ -25,7 +25,7 @@ p {
     font-size: 12px;
 }
 
-.form {
+.form, .books-container {
     width: 450px;
     margin: 0 auto;
 }
@@ -43,4 +43,14 @@ p {
 
 .form-control input {
     padding: 5px;
+}
+
+.books-container div{
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+}
+
+.bold {
+    font-weight: bold;
 }
