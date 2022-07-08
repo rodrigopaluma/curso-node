@@ -52,7 +52,7 @@ app.get('/books', (req, res)=>{
     })
 })
 
-// Recuperação de Livro - getBook()
+// Recuperação de Livro - getBook(Id)
 app.get('/books/:id', (req, res)=>{
     const id = req.params.id;
     const query = `SELECT * FROM books WHERE id = ${id}`;
@@ -66,6 +66,60 @@ app.get('/books/:id', (req, res)=>{
         const book = data[0];
         //console.log(book);
         res.render('book', {book});
+    })
+})
+
+// Selecionar Livro por Id - selectBook(Id)
+app.get('/books/edit/:id', (req, res)=>{
+    const id = req.params.id;
+    //const title = req.body.title;
+    //const pagesQty = req.body.pagesqty;
+
+    //const query = `UPDATE books SET title = '${title}', pagesqty = '${pagesQty}' WHERE id = ${id}`;
+    const query = `SELECT * FROM books WHERE id = ${id}`;
+
+    connection.query(query, function(err, data){
+        if(err){
+            console.log(err);
+            res.send('Erro ao atualizar livro');
+            return
+        }
+
+        const book = data[0];
+        res.render('editbook', {book});
+    })
+})
+
+// Atualizar Livro - updateBook(Id)
+app.post('/books/updatebook', (req, res)=>{
+    const id = req.body.id;
+    const title = req.body.title;
+    const pagesQty = req.body.pagesqty;
+    console.log(req)
+    const query = `UPDATE books SET title= '${title}', pagesqty= '${pagesQty}' WHERE id = '${id}'`;
+    console.log(req)
+    connection.query(query, function(err){
+        if(err){
+            console.log(err);
+            //res.send('Erro ao atualizar livro');
+            return
+        }
+        res.redirect('/books');
+    })
+})
+
+// Apagar Livro - deleteBook(Id)
+app.post('/books/remove/:id', (req, res)=>{
+    const id = req.params.id;
+    const query = `DELETE FROM books WHERE id = '${id}'`;
+
+    connection.query(query, function(err){
+        if(err){
+            console.log(err);
+            res.send('Erro ao apagar livro');
+            return
+        }
+        res.redirect('/books');
     })
 })
 

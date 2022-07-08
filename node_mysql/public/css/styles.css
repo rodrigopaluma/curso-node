@@ -77,3 +77,13 @@ p {
 #book-page .container {
     text-align: center;
 }
+
+.actions {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+
+.actions a {
+    margin-left: 1em;
+}
