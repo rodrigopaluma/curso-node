@@ -23,9 +23,10 @@ app.post('/books/insertbook', (req, res)=>{
     const title = req.body.title;
     const pagesQty = req.body.pagesqty;
 
-    const query = `INSERT INTO books (title, pagesqty) VALUES ('${title}', '${pagesQty}')`;
+    const query = `INSERT INTO books (??, ??) VALUES (?, ?)`;
+    const data = ['title', 'pagesqty', title, pagesQty];
 
-    pool.query(query, function(err){
+    pool.query(query, data,function(err){
         if(err){
             console.log(err);
             res.send('Erro ao cadastrar livro');
@@ -55,9 +56,11 @@ app.get('/books', (req, res)=>{
 // Recuperação de Livro - getBook(Id)
 app.get('/books/:id', (req, res)=>{
     const id = req.params.id;
-    const query = `SELECT * FROM books WHERE id = ${id}`;
+    const query = `SELECT * FROM books WHERE ?? = ?`;
 
-    pool.query(query, function(err, data){
+    const data = ['id', id];
+
+    pool.query(query, data, function(err, data){
         if(err){
             console.log(err);
             res.send('Erro ao recuperar livro');
@@ -72,13 +75,11 @@ app.get('/books/:id', (req, res)=>{
 // Selecionar Livro por Id - selectBook(Id)
 app.get('/books/edit/:id', (req, res)=>{
     const id = req.params.id;
-    //const title = req.body.title;
-    //const pagesQty = req.body.pagesqty;
-
-    //const query = `UPDATE books SET title = '${title}', pagesqty = '${pagesQty}' WHERE id = ${id}`;
     const query = `SELECT * FROM books WHERE id = ${id}`;
 
-    pool.query(query, function(err, data){
+    const data = ['id', id];
+
+    pool.query(query, data, function(err, data){
         if(err){
             console.log(err);
             res.send('Erro ao atualizar livro');
@@ -95,10 +96,9 @@ app.post('/books/updatebook', (req, res)=>{
     const id = req.body.id;
     const title = req.body.title;
     const pagesQty = req.body.pagesqty;
-    //console.log(req)
-    const query = `UPDATE books SET title= '${title}', pagesqty= '${pagesQty}' WHERE id = '${id}'`;
-    console.log(req)
-    pool.query(query, function(err){
+    const query = `UPDATE books SET ?? = ?, ?? = ? WHERE ?? = ?`;
+    const data = ['title', title, 'pagesqty', pagesQty, 'id', id];
+    pool.query(query, data, function(err){
         if(err){
             console.log(err);
             //res.send('Erro ao atualizar livro');
@@ -111,9 +111,11 @@ app.post('/books/updatebook', (req, res)=>{
 // Apagar Livro - deleteBook(Id)
 app.post('/books/remove/:id', (req, res)=>{
     const id = req.params.id;
-    const query = `DELETE FROM books WHERE id = '${id}'`;
+    const query = `DELETE FROM books WHERE ?? = ?`;
 
-    pool.query(query, function(err){
+    const data = ['id', id];
+
+    pool.query(query, data, function(err){
         if(err){
             console.log(err);
             res.send('Erro ao apagar livro');
